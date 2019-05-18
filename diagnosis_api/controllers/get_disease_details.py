@@ -21,7 +21,7 @@ class Disease_details:
         : return diseases dataframe:
         """
 
-        load_disease_files = pd.read_excel('../dataset/{}'.format(self.file_name))
+        load_disease_files = pd.read_excel('diagnosis_api/dataset/{}'.format(self.file_name))
         
         
         #  convert to dataframe
@@ -46,14 +46,19 @@ class Disease_details:
         
         # group data by disease
         disease_grouped_data = data.groupby('Disease').apply(lambda g: pd.Series(g[query_string].values)).rename(columns=lambda x: 'query_string%s' % x)
+       
         
+        # if not isinstance(disease_grouped_data[self.disease_name], pd.Series):
+        #     print('disease doesnt exist')
+        #     return({'message':'Disease with that name doesnot exist'})
+
         for  row in disease_grouped_data[self.disease_name]: 
             if ((row != 0) &( query_string == 'Causes')):
                 self.causes.append(row)
 
             if ((row != 0) & (query_string == 'Symptoms')):
                 self.symptoms.append(row)
-                
+
             if ((row != 0) & (query_string == 'Treatment')):
                 self.Treatments.append(row) 
 
@@ -67,7 +72,7 @@ class Disease_details:
         """
         # load disease file
         file_name = self.file_name
-        basepath = '../dataset/'
+        basepath = 'diagnosis_api/dataset/'
         files = []
         
         for entry in os.listdir(basepath):
@@ -77,11 +82,11 @@ class Disease_details:
         # print(file_name)
         if file_name.lower() not in files:
             
-            return('File with that name doesnot exist')
+            return({'message':'File with that name doesnot exist'})
                 
         if (not file_name.lower().endswith(('.xls','.xlsx'))):
             
-            return(file_name.lower(),'Dataset file format not supported, only excel files are accepted')
+            return({'message':'Dataset file format not supported, only excel files are accepted'})
 
         # disease Causes
         self.get_disease_detail_param_details('Causes') 
@@ -100,9 +105,4 @@ class Disease_details:
         }
         return( disease_details)
 
-    
-disease = Disease_details('rabbit.txt','snuffles')
-print(disease.get_disease_details())
 
-disease = Disease_details('rabbit_diseases.xls','tyzzers_disease')
-print(disease.get_disease_details())
