@@ -35,24 +35,25 @@ class Search_disease_by_symptoms:
         """
         
         # check if the file exists
-        basepath = '../dataset/'
+        basepath = 'diagnosis_api/dataset/'
         files = []
         for entry in os.listdir(basepath):
             if os.path.isfile(os.path.join(basepath, entry)):
                 files.append(entry)
 
         if self.file_name.lower() not in files:
-            return('File with that name doesnot exist')
+            return({'message':'File with that name doesnot exist'})
+                
         
         # check for non excel files
 
         if ( not self.file_name.lower().endswith(('.xls','.xlsx'))):
 
-            return('Dataset file format not supported')
+            return({'message':'Dataset file format not supported, only excel files are accepted'})
         
         
         # load disease file
-        diseases = pd.read_excel('../dataset/{}'.format(self.file_name))
+        diseases = pd.read_excel('diagnosis_api/dataset/{}'.format(self.file_name))
        
         # Fill the missing values with 0
         data = diseases.fillna(value = 0)
@@ -85,19 +86,19 @@ class Search_disease_by_symptoms:
         self.disease = subsetDataFrame['Disease'].sum()
         # check if the search didnt return any results
         if self.disease == 0:
-            return ('Disease with those symptoms doesnot exist')
+            return ({'message':'Disease with those symptoms doesnot exist'})
 
         return(self.disease)
         
         
         
 
-# testing the operation of the class
-search = Search_disease_by_symptoms('rabbit_diseases.xlms',['depression','anaemia','pale mucous Membrane','mucous in feaces','Blood in feaces'])
-print(search.search_disease_by_symptoms())
-search = Search_disease_by_symptoms('rabbit_diseases.xls',['Scabby Crusty area At the base of the ear'])
-print(search.search_disease_by_symptoms())
-search = Search_disease_by_symptoms('rabbit_diseases.xls',['Scabby '])
-print(search.search_disease_by_symptoms())
-search = Search_disease_by_symptoms('rabbit.txt',['Scabby '])
-print(search.search_disease_by_symptoms())
+# # testing the operation of the class
+# search = Search_disease_by_symptoms('rabbit_diseases.xlms',['depression','anaemia','pale mucous Membrane','mucous in feaces','Blood in feaces'])
+# print(search.search_disease_by_symptoms())
+# search = Search_disease_by_symptoms('rabbit_diseases.xls',['Scabby Crusty area At the base of the ear'])
+# print(search.search_disease_by_symptoms())
+# search = Search_disease_by_symptoms('rabbit_diseases.xls',['Scabby '])
+# print(search.search_disease_by_symptoms())
+# search = Search_disease_by_symptoms('rabbit.txt',['Scabby '])
+# print(search.search_disease_by_symptoms())
