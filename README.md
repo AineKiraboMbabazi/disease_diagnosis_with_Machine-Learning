@@ -1,0 +1,2 @@
+[![Build Status](https://travis-ci.org/AineKiraboMbabazi/disease_diagnosis_with_Machine-Learning.svg?branch=diagnosis-api)](https://travis-ci.org/AineKiraboMbabazi/disease_diagnosis_with_Machine-Learning)
+[![Coverage Status](https://coveralls.io/repos/github/AineKiraboMbabazi/disease_diagnosis_with_Machine-Learning/badge.svg?branch=diagnosis-api)](https://coveralls.io/github/AineKiraboMbabazi/disease_diagnosis_with_Machine-Learning?branch=diagnosis-api)
