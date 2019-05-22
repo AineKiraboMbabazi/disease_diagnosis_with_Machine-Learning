@@ -1,6 +1,6 @@
 import pandas as pd 
 import os
-
+from flask import jsonify
 
 class Disease_details:
     """
@@ -41,14 +41,6 @@ class Disease_details:
         
         # group data by disease
         disease_grouped_data = self.load_disease_file()[0].groupby('Disease').apply(lambda g: pd.Series(g[query_string].values)).rename(columns=lambda x: 'query_string%s' % x)
-        
-        disease_list = []
-        for idx,row in self.load_disease_file()[0]['Disease'].items():
-            disease_list.append(row)
-            
-        if self.disease_name not in disease_list:
-            
-            return({'message':'Disease with that name doesnot exist'})
         causes = []
         symptoms = []
         Treatments = []
@@ -83,11 +75,19 @@ class Disease_details:
         
         if file_name.lower() not in files:
             
-            return({'message':'File with that name doesnot exist'})
+            return ({'message':'File with that name doesnot exist'})
                 
         if (not file_name.lower().endswith(('.xls','.xlsx'))):
             
-            return({'message':'Dataset file format not supported, only excel files are accepted'})
+            return ({'message':'Dataset file format not supported, only excel files are accepted'})
+        
+        disease_list = []
+
+        for idx,row in self.load_disease_file()[0]['Disease'].items():
+            disease_list.append(row)
+            
+        if self.disease_name not in disease_list:
+            return ({'message':'Disease with that name doesnot exist'})
 
         # disease Causes
         causes = self.get_disease_detail_param_details('Causes') [0]
@@ -104,6 +104,6 @@ class Disease_details:
             'Symptoms':symptoms,
             'Treatment':Treatments
         }
-        return( disease_details)
+        return ({'disease_details': disease_details})
 
 

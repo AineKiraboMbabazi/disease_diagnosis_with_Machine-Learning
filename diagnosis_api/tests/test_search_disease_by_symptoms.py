@@ -16,7 +16,7 @@ class TestSearchDiseaseBySymptoms(unittest.TestCase):
 
     def test_can_successfully_get_disease_by_symptoms(self):
         disease =  self.search.search_disease_by_symptoms()
-        self.assertIsInstance(disease,str)
+        self.assertIsInstance(disease,dict)
         disease =  self.search_list.search_disease_by_symptoms()
         self.assertIsInstance(disease,list)
 

@@ -4,10 +4,14 @@ from pandas.util.testing import assert_frame_equal,assert_equal
 
 
 from diagnosis_api.controllers.get_disease_details import Disease_details
-# diagnosis_api/dataset
+
 
 class GetDiseaseDetails(unittest.TestCase):
+    """ 
 
+    Unittests for the get disease details class
+
+    """
     def setUp(self):
         self.load_disease_files = pd.read_excel('diagnosis_api/dataset/{}'.format('rabbit_diseases.xls'))
         self.df = pd.DataFrame(self.load_disease_files)
@@ -68,7 +72,7 @@ class GetDiseaseDetails(unittest.TestCase):
 
         
     def test_cant_successfully_get_disease_details_for_nonexistent_disease(self):
-        details =  self.non_existent_disease_details.get_disease_detail_param_details('Causes')
+        details =  self.non_existent_disease_details.get_disease_details()
         self.assertIsInstance(details,dict)
         self.assertEqual(details,{'message':'Disease with that name doesnot exist'})
     

@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 
+from flask import jsonify
 
 # from get_disease_details import Disease_details
 
@@ -8,6 +9,7 @@ class Search_disease_by_symptoms:
 
     def __init__(self, file_name,search_params):
         self.file_name = file_name
+        # parse the string list returned by the api to a list by using the ast library
         self.search_params = search_params
         self.disease = None
         self.query_list = []
@@ -42,14 +44,14 @@ class Search_disease_by_symptoms:
                 files.append(entry)
 
         if self.file_name.lower() not in files:
-            return({'message':'File with that name doesnot exist'})
+            return ({'message':'File with that name doesnot exist'})
                 
         
         # check for non excel files
 
         if ( not self.file_name.lower().endswith(('.xls','.xlsx'))):
 
-            return({'message':'Dataset file format not supported, only excel files are accepted'})
+            return ({'message':'Dataset file format not supported, only excel files are accepted'})
         
         
         # load disease file
@@ -88,7 +90,7 @@ class Search_disease_by_symptoms:
         if self.disease == 0:
             return ({'message':'Disease with those symptoms doesnot exist'})
 
-        return(self.disease)
+        return ({'disease':self.disease})
         
         
         
