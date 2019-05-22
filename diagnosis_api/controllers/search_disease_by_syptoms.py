@@ -50,7 +50,6 @@ class Search_disease_by_symptoms:
         # check for non excel files
 
         if ( not self.file_name.lower().endswith(('.xls','.xlsx'))):
-
             return ({'message':'Dataset file format not supported, only excel files are accepted'})
         
         
@@ -86,6 +85,7 @@ class Search_disease_by_symptoms:
 
         # if the symptom occurs in one disease. 
         self.disease = subsetDataFrame['Disease'].sum()
+
         # check if the search didnt return any results
         if self.disease == 0:
             return ({'message':'Disease with those symptoms doesnot exist'})
@@ -94,13 +94,3 @@ class Search_disease_by_symptoms:
         
         
         
-
-# # testing the operation of the class
-# search = Search_disease_by_symptoms('rabbit_diseases.xlms',['depression','anaemia','pale mucous Membrane','mucous in feaces','Blood in feaces'])
-# print(search.search_disease_by_symptoms())
-# search = Search_disease_by_symptoms('rabbit_diseases.xls',['Scabby Crusty area At the base of the ear'])
-# print(search.search_disease_by_symptoms())
-# search = Search_disease_by_symptoms('rabbit_diseases.xls',['Scabby '])
-# print(search.search_disease_by_symptoms())
-# search = Search_disease_by_symptoms('rabbit.txt',['Scabby '])
-# print(search.search_disease_by_symptoms())
