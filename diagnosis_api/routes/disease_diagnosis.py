@@ -13,7 +13,8 @@ import datetime
 @app.route("/index")
 @app.route("/")
 def index():
-    return jsonify({"message": "Welcome to disease diagnosis API with pandas"}), 200
+    return jsonify(
+        {"message": "Welcome to disease diagnosis API with pandas"}), 200
 
 
 """

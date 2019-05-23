@@ -44,20 +44,20 @@ class TestSearchDiseaseBySymptoms(unittest.TestCase):
             disease, {"message": "Disease with those symptoms doesnot exist"}
         )
 
-    def test_cant_successfully_get_disease_by_symptoms_for_nonexistent_file(self):
+    def test_cant_successfully_get_disease_by_symptoms_for_nonexistent_file(
+            self):
         details = self.search_in_nonexistent_file.search_disease_by_symptoms()
         self.assertIsInstance(details, dict)
-        self.assertEqual(details, {"message": "File with that name doesnot exist"})
+        self.assertEqual(
+            details, {
+                "message": "File with that name doesnot exist"})
 
     def test_cant_successfully_get_disease_by_symptoms_for_nonexcel_file(self):
         details = self.search_with_invalid_file.search_disease_by_symptoms()
         self.assertIsInstance(details, dict)
         self.assertEqual(
-            details,
-            {
-                "message": "Dataset file format not supported, only excel files are accepted"
-            },
-        )
+            details, {
+                "message": "Dataset file format not supported, only excel files are accepted"}, )
 
     def tearDown(self):
         self.disease_details = None

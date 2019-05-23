@@ -74,8 +74,7 @@ class DiseaseDetails:
 
         if not file_name.lower().endswith((".xls", ".xlsx")):
             return {
-                "message": "Dataset file format not supported, only excel files are accepted"
-            }
+                "message": "Dataset file format not supported, only excel files are accepted"}
 
         disease_list = []
 

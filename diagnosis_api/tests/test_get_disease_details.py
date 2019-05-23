@@ -7,7 +7,7 @@ from diagnosis_api.controllers.get_disease_details import DiseaseDetails
 
 
 class GetDiseaseDetails(unittest.TestCase):
-    """ 
+    """
 
     Unittests for the get disease details class
 
@@ -48,45 +48,53 @@ class GetDiseaseDetails(unittest.TestCase):
         details = self.disease_details.load_disease_file()
         assert_equal(details[1], self.load_disease_files)
 
-    def test_load_disease_file_contains_dataframe_with_spaces_filled_with_zero(self):
+    def test_load_disease_file_contains_dataframe_with_spaces_filled_with_zero(
+            self):
         details = self.disease_details.load_disease_file()
         assert_equal(details[2], self.df)
 
     def test_get_disease_detail_param_details_contains_causes(self):
-        details = self.disease_details.get_disease_detail_param_details("Causes")
+        details = self.disease_details.get_disease_detail_param_details(
+            "Causes")
         self.assertIsInstance(details[0], list)
 
     def test_get_disease_detail_param_details_contains_symptoms(self):
-        details = self.disease_details.get_disease_detail_param_details("Symptoms")
+        details = self.disease_details.get_disease_detail_param_details(
+            "Symptoms")
         self.assertIsInstance(details[1], list)
 
     def test_get_disease_detail_param_details_contains_treatment(self):
-        details = self.disease_details.get_disease_detail_param_details("Treatment")
+        details = self.disease_details.get_disease_detail_param_details(
+            "Treatment")
         self.assertIsInstance(details[2], list)
 
-    def test_get_disease_detail_param_details_contains_series_of_grouped_data(self):
-        details = self.disease_details.get_disease_detail_param_details("Treatment")
+    def test_get_disease_detail_param_details_contains_series_of_grouped_data(
+            self):
+        details = self.disease_details.get_disease_detail_param_details(
+            "Treatment")
         self.assertEqual(details[3].size, 70)
 
     def test_cant_successfully_get_disease_details_for_nonexistent_file(self):
         details = self.disease_with_non_existent_filename.get_disease_details()
         self.assertIsInstance(details, dict)
-        self.assertEqual(details, {"message": "File with that name doesnot exist"})
+        self.assertEqual(
+            details, {
+                "message": "File with that name doesnot exist"})
 
     def test_cant_successfully_get_disease_details_for_nonexcel_file(self):
         details = self.disease_with_non_excel_file.get_disease_details()
         self.assertIsInstance(details, dict)
         self.assertEqual(
-            details,
-            {
-                "message": "Dataset file format not supported, only excel files are accepted"
-            },
-        )
+            details, {
+                "message": "Dataset file format not supported, only excel files are accepted"}, )
 
-    def test_cant_successfully_get_disease_details_for_nonexistent_disease(self):
+    def test_cant_successfully_get_disease_details_for_nonexistent_disease(
+            self):
         details = self.non_existent_disease_details.get_disease_details()
         self.assertIsInstance(details, dict)
-        self.assertEqual(details, {"message": "Disease with that name doesnot exist"})
+        self.assertEqual(
+            details, {
+                "message": "Disease with that name doesnot exist"})
 
     def tearDown(self):
         self.disease_details = None

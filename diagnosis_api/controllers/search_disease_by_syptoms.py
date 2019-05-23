@@ -7,7 +7,8 @@ from flask import jsonify
 class SearchDiseaseBySymptoms:
     def __init__(self, file_name, search_params):
         self.file_name = file_name
-        # parse the string list returned by the api to a list by using the ast library
+        # parse the string list returned by the api to a list by using the ast
+        # library
         self.search_params = search_params
         self.disease = None
         self.query_list = []
@@ -43,8 +44,7 @@ class SearchDiseaseBySymptoms:
         # check for non excel files
         if not self.file_name.lower().endswith((".xls", ".xlsx")):
             return {
-                "message": "Dataset file format not supported, only excel files are accepted"
-            }
+                "message": "Dataset file format not supported, only excel files are accepted"}
 
         # load disease file
         diseases = pd.read_excel(
