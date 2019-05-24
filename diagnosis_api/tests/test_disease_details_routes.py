@@ -28,7 +28,7 @@ class TestApiRoutes(unittest.TestCase):
 
     def test_api_gets_disease_details(self):
         disease_details = self.app_client.get(
-            "api/v1/get_disease_details?file_name =rabbit_diseases.xls&disease_name=snuffles",
+            "/api/v1/diseases/details?file_name =rabbit_diseases.xls&disease_name=snuffles",
             content_type="application/json",
         )
         self.assertEqual(disease_details.status_code, 200)
@@ -37,7 +37,7 @@ class TestApiRoutes(unittest.TestCase):
 
     def test_api_searches_disease_by_symptoms(self):
         disease = self.app_client.get(
-            "api/v1/get_disease_by_sypmtoms?file_name =rabbit_diseases.xls&search_params=['nasal discharge']",
+            "/api/v1/diseases/search?file_name =rabbit_diseases.xls&search_params=['nasal discharge']",
             content_type="application/json",
         )
         self.assertEqual(disease.status_code, 200)

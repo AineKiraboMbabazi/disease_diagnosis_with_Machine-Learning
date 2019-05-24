@@ -22,7 +22,7 @@ def index():
 """
 
 
-@app.route("/api/v1/get_disease_by_sypmtoms", methods=["GET"])
+@app.route("/api/v1/diseases/search", methods=["GET"])
 def search_disease_by_sypmtoms():
     """
         function to get disease by sypmtoms
@@ -37,7 +37,7 @@ def search_disease_by_sypmtoms():
     return jsonify({"disease": result}), 200
 
 
-@app.route("/api/v1/get_disease_details", methods=["GET"])
+@app.route("/api/v1/diseases/details", methods=["GET"])
 def get_disease_details():
     """
         function to create a association
