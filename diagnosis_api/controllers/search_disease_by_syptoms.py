@@ -3,6 +3,7 @@ import pandas as pd
 from flask import jsonify
 from .load_dataset import load_file, check_disease_file
 
+
 class SearchDiseaseBySymptoms:
     def __init__(self, file_name, search_params):
         self.file_name = file_name

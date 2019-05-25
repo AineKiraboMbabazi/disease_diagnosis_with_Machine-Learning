@@ -3,6 +3,7 @@ import os
 from flask import jsonify
 from .load_dataset import load_file, check_disease_file
 
+
 class DiseaseDetails:
     """
     Disease details model that defines the disease_details
