@@ -2,8 +2,6 @@ import unittest
 
 from diagnosis_api.controllers.search_disease_by_syptoms import SearchDiseaseBySymptoms
 
-# diagnosis_api/dataset
-
 
 class TestSearchDiseaseBySymptoms(unittest.TestCase):
     def setUp(self):
@@ -28,7 +26,7 @@ class TestSearchDiseaseBySymptoms(unittest.TestCase):
             file_name="rabbit_diseases.xls", search_params=["diarrhoea"]
         )
         self.search_in_nonexistent_file = SearchDiseaseBySymptoms(
-            file_name="rabbit_diseases.txt", search_params=["Scabby "]
+            file_name="rabbit.xls", search_params=["Scabby "]
         )
 
     def test_can_successfully_get_disease_by_symptoms(self):
@@ -57,6 +55,7 @@ class TestSearchDiseaseBySymptoms(unittest.TestCase):
         self.assertIsInstance(details, dict)
         self.assertEqual(
             details, {
+                "file_format": ".txt",
                 "message": "Dataset file format not supported, only excel files are accepted"}, )
 
     def tearDown(self):

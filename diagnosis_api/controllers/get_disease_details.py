@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from flask import jsonify
-
+from .load_dataset import load_file, check_disease_file
 
 class DiseaseDetails:
     """
@@ -19,7 +19,7 @@ class DiseaseDetails:
         : return diseases dataframe:
         """
 
-        file = pd.read_excel("diagnosis_api/dataset/{}".format(self.file_name))
+        file = load_file(self.file_name)
 
         #  convert to dataframe
         df = pd.DataFrame(file)
@@ -61,42 +61,32 @@ class DiseaseDetails:
         : Return disease details :
 
         """
-        # load disease file
-        file_name = self.file_name
-        basepath = "diagnosis_api/dataset/"
-        files = []
-        for entry in os.listdir(basepath):
-            if os.path.isfile(os.path.join(basepath, entry)):
-                files.append(entry)
 
-        if file_name.lower() not in files:
-            return {"message": "File with that name doesnot exist"}
+        # load disease fileload_disease_file
+        check_file = check_disease_file(self.file_name)
+        if not check_file:
 
-        if not file_name.lower().endswith((".xls", ".xlsx")):
-            return {
-                "message": "Dataset file format not supported, only excel files are accepted"}
+            disease_list = []
 
-        disease_list = []
+            for idx, row in self.load_disease_file()[0]["Disease"].items():
+                disease_list.append(row)
 
-        for idx, row in self.load_disease_file()[0]["Disease"].items():
-            disease_list.append(row)
+            if self.disease_name not in disease_list:
+                return {"message": "Disease with that name doesnot exist"}
+            # disease Causes
+            causes = self.get_disease_detail_param_details("Causes")[0]
 
-        if self.disease_name not in disease_list:
-            return {"message": "Disease with that name doesnot exist"}
+            # disease symptoms
+            symptoms = self.get_disease_detail_param_details("Symptoms")[1]
 
-        # disease Causes
-        causes = self.get_disease_detail_param_details("Causes")[0]
+            # disease Treatment
+            Treatments = self.get_disease_detail_param_details("Treatment")[2]
 
-        # disease symptoms
-        symptoms = self.get_disease_detail_param_details("Symptoms")[1]
-
-        # disease Treatment
-        Treatments = self.get_disease_detail_param_details("Treatment")[2]
-
-        disease_details = {
-            "Disease_Name": self.disease_name,
-            "Causes": causes,
-            "Symptoms": symptoms,
-            "Treatment": Treatments,
-        }
-        return {"disease_details": disease_details}
+            disease_details = {
+                "Disease_Name": self.disease_name,
+                "Causes": causes,
+                "Symptoms": symptoms,
+                "Treatment": Treatments,
+            }
+            return {"disease_details": disease_details}
+        return check_file

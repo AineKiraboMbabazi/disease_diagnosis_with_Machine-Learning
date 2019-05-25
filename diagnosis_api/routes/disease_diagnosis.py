@@ -40,7 +40,7 @@ def search_disease_by_sypmtoms():
 @app.route("/api/v1/diseases/details", methods=["GET"])
 def get_disease_details():
     """
-        function to create a association
+        function to get disease details for a particular disease
     """
     args = request.args.to_dict()
     file_name = args["file_name "]

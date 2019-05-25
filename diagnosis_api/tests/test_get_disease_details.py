@@ -86,6 +86,7 @@ class GetDiseaseDetails(unittest.TestCase):
         self.assertIsInstance(details, dict)
         self.assertEqual(
             details, {
+                "file_format": ".txt",
                 "message": "Dataset file format not supported, only excel files are accepted"}, )
 
     def test_cant_successfully_get_disease_details_for_nonexistent_disease(

@@ -1,8 +1,7 @@
 import pandas as pd
-import os
 
 from flask import jsonify
-
+from .load_dataset import load_file, check_disease_file
 
 class SearchDiseaseBySymptoms:
     def __init__(self, file_name, search_params):
@@ -32,63 +31,51 @@ class SearchDiseaseBySymptoms:
         """
 
         # check if the file exists
-        basepath = "diagnosis_api/dataset/"
-        files = []
-        for entry in os.listdir(basepath):
-            if os.path.isfile(os.path.join(basepath, entry)):
-                files.append(entry)
+        check_file = check_disease_file(self.file_name)
+        if not check_file:
+            # load disease file
+            diseases = load_file(self.file_name)
 
-        if self.file_name.lower() not in files:
-            return {"message": "File with that name doesnot exist"}
+            # Fill the missing values with 0
+            data = diseases.fillna(value=0)
 
-        # check for non excel files
-        if not self.file_name.lower().endswith((".xls", ".xlsx")):
-            return {
-                "message": "Dataset file format not supported, only excel files are accepted"}
+            # Filter data to focus on diseases and symptoms
+            test1 = data[["Disease", "Symptoms"]]
 
-        # load disease file
-        diseases = pd.read_excel(
-            "diagnosis_api/dataset/{}".format(self.file_name)
-        )
+            # Search in the symptoms for specified disease symptoms
 
-        # Fill the missing values with 0
-        data = diseases.fillna(value=0)
+            subsetDataFrame = test1[
+                test1["Symptoms"].isin(self.convert_string_to_lower())
+            ]
 
-        # Filter data to focus on diseases and symptoms
-        test1 = data[["Disease", "Symptoms"]]
+            # if the symptoms occur in multiple diseases
+            if len(subsetDataFrame.index) > 1:
+                # Group all similar disease together
+                #  count number of occurrance of each disease
+                dups_diseases = subsetDataFrame.pivot_table(
+                    index=["Disease"], aggfunc="size"
+                )
 
-        # Search in the symptoms for specified disease symptoms
+                # returns the maximum number of duplications
+                maximum_disease_occurance_count = dups_diseases.max()
 
-        subsetDataFrame = test1[
-            test1["Symptoms"].isin(self.convert_string_to_lower())
-        ]
+                # create list for most likely disease
+                possible_diseases = []
+                for idx, row in dups_diseases.items():
+                    if row == maximum_disease_occurance_count:
+                        possible_diseases.append(idx)
 
-        # if the symptoms occur in multiple diseases
-        if len(subsetDataFrame.index) > 1:
-            # Group all similar disease together
-            #  count number of occurrance of each disease
-            dups_diseases = subsetDataFrame.pivot_table(
-                index=["Disease"], aggfunc="size"
-            )
+                    self.disease = possible_diseases
 
-            # returns the maximum number of duplications
-            maximum_disease_occurance_count = dups_diseases.max()
+                return self.disease
 
-            # create list for most likely disease
-            possible_diseases = []
-            for idx, row in dups_diseases.items():
-                if row == maximum_disease_occurance_count:
-                    possible_diseases.append(idx)
+            # if the symptom occurs in one disease.
+            self.disease = subsetDataFrame["Disease"].sum()
 
-                self.disease = possible_diseases
+            # check if the search didnt return any results
+            if self.disease == 0:
+                return {"message": "Disease with those symptoms doesnot exist"}
 
-            return self.disease
+            return {"disease": self.disease}
 
-        # if the symptom occurs in one disease.
-        self.disease = subsetDataFrame["Disease"].sum()
-
-        # check if the search didnt return any results
-        if self.disease == 0:
-            return {"message": "Disease with those symptoms doesnot exist"}
-
-        return {"disease": self.disease}
+        return check_file
