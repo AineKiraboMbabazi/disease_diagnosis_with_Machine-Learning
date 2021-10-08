@@ -3,7 +3,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/1b4e5b23bea9dcb5f9d4/maintainability)](https://codeclimate.com/github/AineKiraboMbabazi/disease_diagnosis_with_Machine-Learning/maintainability)
 
 
-# Disease diagnosis with machine-learning and pandas
+# Disease diagnosis with pandas
 # Animal disease diagnosis
 The diagnosis api enables users search for details of a particular animal disease, the details include the symptoms,causes and treatment for a given disease. 
 
