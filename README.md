@@ -38,8 +38,14 @@ Install requirements
 pip3 install -r requirements.txt
 ```
 make sure that you have  python3 and postman installed on your computer
+To install postman
+For linux
 ```
 snap install postman
+```
+Follow the link for windows installation
+```
+https://www.softwaretestingmaterial.com/install-postman/
 ```
 
 # Running the project #
@@ -57,8 +63,8 @@ run
 |---|---|---|---|
 | / |GET   |INDEX   |  Loads the home page |
 | /index  |GET   |INDEX   |  Loads the home page |
-| api/v1/get_disease_by_sypmtoms?file_name =rabbit_diseases.xls&search_params=['nasal discharge']  |GET   |READ  |  Search disease by symptoms  | 
-| api/v1/get_disease_details?file_name =rabbit_diseases.xls&disease_name=snuffles  |GET   |READ   |   Get disease details|
+| /api/v1/diseases/search?file_name =rabbit_diseases.xls&search_params=['nasal discharge']  |GET   |READ  |  Search disease by symptoms  | 
+| /api/v1/diseases/details?file_name =rabbit_diseases.xls&disease_name=snuffles  |GET   |READ   |   Get disease details|
 
 ## Tests 
 To run tests
